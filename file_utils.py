@@ -77,7 +77,12 @@ class FileUtils(object):
         os.makedirs(path_base_dir_subgraph)
         for k in subgraphs:
             k_edges = subgraphs.get(k)
-            file_k = open(path_base_dir_subgraph + k.title().replace(' ', '') + '.csv', 'w')
+
+            subgraph_name = k.title().replace(' ', '')
+            if subgraph_name == '':
+                subgraph_name = 'Desconhecido'
+
+            file_k = open(path_base_dir_subgraph + subgraph_name + '.csv', 'w')
             file_k.write(k_edges[0].get_header() + '\n')
             for e in k_edges:
                 file_k.write(e.get_attributes() + '\n')
