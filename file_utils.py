@@ -1,7 +1,16 @@
+import sys
 import os
+
+sys.path.append('../aglattes/')
+from models.lattes import Lattes, Relacao
 
 
 class FileUtils(object):
+
+    CABECALHO_GDF_VERTICE = 'nodedef>name VARCHAR,label VARCHAR,nome_ultima_titulacao VARCHAR,ano_ultima_titulacao INTEGER,eh_livre_docente BOOLEAN,ano_primeira_livre_docencia INTEGER,tem_pos_doc BOOLEAN,ano_primeiro_pos_doc INTEGER,primeira_grande_area VARCHAR,primeira_area VARCHAR,primeira_sub_area VARCHAR,primeira_especialidade VARCHAR,eh_ascendente BOOLEAN,eh_descendente BOOLEAN,eh_semente BOOLEAN,profi_instituicao VARCHAR,profi_orgao VARCHAR,profi_pais VARCHAR,profi_uf VARCHAR,profi_cidade VARCHAR,profi_bairro VARCHAR,profi_logradouro VARCHAR,profi_cep VARCHAR,pais_de_nascimento VARCHAR,uf_nascimento VARCHAR,cidade_nascimento VARCHAR,nacionalidade VARCHAR,pais_de_nacionalidade VARCHAR,sigla_pais_nacionalidade VARCHAR,data_ultima_atualizacao_curriculo VARCHAR'
+
+    CABECALHO_GDF_ARESTA = 'edgedef>origem_id_lattes,destino_id_lattes,origem_nome VARCHAR,destino_nome VARCHAR,titulacao VARCHAR,codigo_nivel VARCHAR,tipo_orientacao VARCHAR,ano_inicio INTEGER,ano_conclusao INTEGER,curso VARCHAR,instituicao VARCHAR,tese VARCHAR,extra VARCHAR,grande_area VARCHAR,area VARCHAR,sub_area VARCHAR,especialidade VARCHAR,directed BOOLEAN'
+
 
     @staticmethod
     def get_models_from_str_list(str_splitted_objects: list, model=object):
@@ -87,4 +96,63 @@ class FileUtils(object):
             for e in k_edges:
                 file_k.write(e.get_attributes() + '\n')
             file_k.close()
+
+
+    @staticmethod
+    def vertice_to_gdf(vertice: Lattes):
+        gdf_vertice = []
+        gdf_vertice.append(vertice.id_lattes)
+        gdf_vertice.append(vertice.nome.title())
+        gdf_vertice.append(vertice.nome_ultima_titulacao.title())
+        gdf_vertice.append(vertice.ano_ultima_titulacao)
+        gdf_vertice.append(vertice.eh_livre_docente)
+        gdf_vertice.append(vertice.ano_primeira_livre_docencia)
+        gdf_vertice.append(vertice.tem_pos_doc)
+        gdf_vertice.append(vertice.ano_primeiro_pos_doc)
+        gdf_vertice.append(vertice.primeira_grande_area.title())
+        gdf_vertice.append(vertice.primeira_area.title())
+        gdf_vertice.append(vertice.primeira_sub_area.title())
+        gdf_vertice.append(vertice.primeira_especialidade.title())
+        gdf_vertice.append(vertice.eh_ascendente)
+        gdf_vertice.append(vertice.eh_descendente)
+        gdf_vertice.append(vertice.eh_semente)
+        gdf_vertice.append(vertice.profi_instituicao.title())
+        gdf_vertice.append(vertice.profi_orgao.title())
+        gdf_vertice.append(vertice.profi_pais.title())
+        gdf_vertice.append(vertice.profi_uf.upper())
+        gdf_vertice.append(vertice.profi_cidade.title())
+        gdf_vertice.append(vertice.profi_bairro.title())
+        gdf_vertice.append(vertice.profi_logradouro.title())
+        gdf_vertice.append(vertice.profi_cep)
+        gdf_vertice.append(vertice.pais_de_nascimento.title())
+        gdf_vertice.append(vertice.uf_nascimento.upper())
+        gdf_vertice.append(vertice.cidade_nascimento.title())
+        gdf_vertice.append(vertice.nacionalidade.upper())
+        gdf_vertice.append(vertice.pais_de_nacionalidade.title())
+        gdf_vertice.append(vertice.sigla_pais_nacionalidade.upper())
+        gdf_vertice.append(vertice.data_ultima_atualizacao_curriculo)
+        return ','.join(gdf_vertice)
+
+    @staticmethod
+    def aresta_to_gdf(aresta: Relacao):
+        gdf_aresta = []
+        gdf_aresta.append(aresta.origem_id_lattes)
+        gdf_aresta.append(aresta.destino_id_lattes)
+        gdf_aresta.append(aresta.origem_nome.title())
+        gdf_aresta.append(aresta.destino_nome.title())
+        gdf_aresta.append(aresta.titulacao.title())
+        gdf_aresta.append(aresta.codigo_nivel.title())
+        gdf_aresta.append(aresta.tipo_orientacao.title())
+        gdf_aresta.append(aresta.ano_inicio)
+        gdf_aresta.append(aresta.ano_conclusao)
+        gdf_aresta.append(aresta.curso.title())
+        gdf_aresta.append(aresta.instituicao.title())
+        gdf_aresta.append(aresta.tese.title())
+        gdf_aresta.append(aresta.extra.title())
+        gdf_aresta.append(aresta.grande_area.title())
+        gdf_aresta.append(aresta.area.title())
+        gdf_aresta.append(aresta.sub_area.title())
+        gdf_aresta.append(aresta.especialidade.title())
+        gdf_aresta.append('True')
+        return ','.join(gdf_aresta)
     
