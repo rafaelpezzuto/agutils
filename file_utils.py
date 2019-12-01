@@ -11,7 +11,6 @@ class FileUtils(object):
 
     CABECALHO_GDF_ARESTA = 'edgedef>origem_id_lattes,destino_id_lattes,origem_nome VARCHAR,destino_nome VARCHAR,titulacao VARCHAR,codigo_nivel VARCHAR,tipo_orientacao VARCHAR,ano_inicio INTEGER,ano_conclusao INTEGER,curso VARCHAR,instituicao VARCHAR,tese VARCHAR,extra VARCHAR,grande_area VARCHAR,area VARCHAR,sub_area VARCHAR,especialidade VARCHAR,directed BOOLEAN'
 
-
     @staticmethod
     def get_models_from_str_list(str_splitted_objects: list, model=object):
         """
@@ -29,7 +28,6 @@ class FileUtils(object):
             parsed_objects.append(obj)
 
         return parsed_objects
-
 
     @staticmethod
     def get_models_from_path_csv(path_csv: str, sep=',', model=object):
@@ -53,7 +51,6 @@ class FileUtils(object):
 
         return parsed_objects
 
-
     @staticmethod
     def get_str_vertices_and_edges_from_path_gdf_graph(path_gdf_graph: str, sep=',', nattr_vertices=30, nattr_edges=18):
         """
@@ -76,7 +73,6 @@ class FileUtils(object):
 
         return _str_vertices, _str_edges
 
-    
     @staticmethod
     def save_subgraphs(path_base_dir_subgraph: str, subgraphs: dict):
         """
@@ -96,7 +92,6 @@ class FileUtils(object):
             for e in k_edges:
                 file_k.write(e.get_attributes() + '\n')
             file_k.close()
-
 
     @staticmethod
     def vertice_to_gdf(vertice: Lattes):
@@ -155,4 +150,3 @@ class FileUtils(object):
         gdf_aresta.append(aresta.especialidade.title())
         gdf_aresta.append('True')
         return ','.join(gdf_aresta)
-    
